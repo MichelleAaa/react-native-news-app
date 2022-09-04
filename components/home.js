@@ -10,7 +10,7 @@ import tempData from "../data-temporary";
 import axios from 'axios';
 
 import { articles_url, country_code, category } from './newsAPI_config/general_config';
-import { _api_key } from './newsAPI_config/API_key';
+import { _api_key } from './newsAPI_config/API_key/API_key';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
@@ -38,10 +38,10 @@ function Home() {
 
     return (
         <React.Fragment>
-            <View style={styles.newsContainer}>
+            <View style={styles.mainContainer}>
                 <Search />
                 <View style={styles.headerContainer}>
-                    <Text style={styles.newsHeader}>
+                    <Text style={styles.headerTitle}>
                         General News
                     </Text>
                 </View>
@@ -54,44 +54,32 @@ function Home() {
 }
 
 const styles = StyleSheet.create({
-    newsContainer: {
+    mainContainer: {
         flex: 1,
         paddingVertical: 30,
-        paddingHorizontal: 1
+        paddingHorizontal: 1,
+        height: '100%',
+        backgroundColor: '#a8dadc',
     },
     headerContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        // paddingVertical: 3,
         borderBottomWidth: 2,
-        borderBottomColor: '#cccccc'
+        borderBottomColor: '#cccccc',
+        height: '100%',
+        // backgroundColor: '#cccccc'
     },
-    newsHeader: {
+    headerTitle: {
         // borderWidth: 1,
         // borderColor: '#cccccc',
         textAlign: 'center',
         width: '100%',
-        // marginRight: 8,
-        // padding: 8
+        height: '100%',
+        fontSize: 20,
+        fontWeight: "bold",
     },
-    // inputContainer: {
-    //     flex: 1,
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     alignItems: 'center',
-    //     marginBottom: 24,
-    //     borderBottomWidth: 1,
-    //     borderBottomColor: '#cccccc',
-    // },
-    // textInput: {
-    //     borderWidth: 1,
-    //     borderColor: '#cccccc',
-    //     width: '70%',
-    //     marginRight: 8,
-    //     padding: 8,
-    // },
     newsItemsWrapper: {
         flex: 10,
         // paddingTop: 30,

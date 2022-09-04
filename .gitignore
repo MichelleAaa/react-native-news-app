@@ -11,7 +11,7 @@ npm-debug.*
 web-build/
 
 # API Key
-components/newsAPI_config/API_key.js
+components/newsAPI_config/API_key
 
 # macOS
 .DS_Store
