@@ -7,34 +7,43 @@ import Search from "./search";
 
 // temporary, while not requesting from API:
 import tempData from "../data-temporary";
-import axios from 'axios';
 
+import axios from 'axios';
+import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
 import { articles_url, country_code, category } from './newsAPI_config/general_config';
 import { _api_key } from './newsAPI_config/API_key/API_key';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState(tempData);
+    const [data, setData] = useState('');
+
+    let [fontsLoaded] = useFonts({
+        Roboto_300Light
+    });
 
     // SENDS REQUEST FOR API DATA - LIMIT 100 PER DAY SO TURNED OFF TEMPORARILY (Later, set data back to '' to start and remove tempData):
-    // useEffect(() => {
-    //     axios.get(`${articles_url}?country=${country_code}&category=${category}`, {
-    //         headers: {
-    //             'X-API-KEY': _api_key
-    //         }
-    //     })
-    //     .then(data => {
-    //         setIsLoading(false);
-    //         setData(data.data.articles);
-    //     })
-    //     .catch(function (error){
-    //         console.log(error);
-    //     })
-    // }, []);
+    useEffect(() => {
+        axios.get(`${articles_url}?country=${country_code}&category=${category}`, {
+            headers: {
+                'X-API-KEY': _api_key
+            }
+        })
+        .then(data => {
+            setIsLoading(false);
+            setData(data.data.articles);
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    }, []);
     
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <React.Fragment>
@@ -46,7 +55,7 @@ function Home() {
                     </Text>
                 </View>
                 <View style={styles.newsItemsWrapper}>
-                    <NewsItem data={data} key={1}/>
+                    <NewsItem data={data} key={new Date(Date.now()).toISOString()}/>
                 </View>
             </View>
         </React.Fragment>
@@ -56,10 +65,10 @@ function Home() {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        paddingVertical: 30,
+        paddingTop: 20,
         paddingHorizontal: 1,
         height: '100%',
-        backgroundColor: '#a8dadc',
+        backgroundColor: '#a8dadc'
     },
     headerContainer: {
         flex: 1,
@@ -68,21 +77,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 2,
         borderBottomColor: '#cccccc',
-        height: '100%',
-        // backgroundColor: '#cccccc'
+        height: '100%'
     },
     headerTitle: {
-        // borderWidth: 1,
-        // borderColor: '#cccccc',
         textAlign: 'center',
         width: '100%',
         height: '100%',
         fontSize: 20,
         fontWeight: "bold",
+        color: '#2b2d42',
+        fontFamily: 'Roboto_300Light'
     },
     newsItemsWrapper: {
         flex: 10,
-        // paddingTop: 30,
         paddingHorizontal: 1,
         marginHorizontal: 3
     }

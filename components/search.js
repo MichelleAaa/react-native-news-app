@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button, Pressable, Modal, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Pressable, Modal, Alert } from 'react-native';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
+import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
 import NewsItem from "./newsItem" ;
 import Loading from "./loading";
 import { search_url, country_code, sortBy } from './newsAPI_config/search_config';
@@ -15,9 +16,17 @@ function Search() {
     const [isLoading, setIsLoading] = useState(false);
 
     // NOTE - Set to tempData only while not using API:
-    const [data, setData] = useState(tempData);
+    const [data, setData] = useState('');
 
     const [searchModalIsVisible, setSearchModalIsVisible] = useState(false);//Modal will be closed to start.
+
+    let [fontsLoaded] = useFonts({
+        Roboto_300Light
+    });
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     function textInputHandler(enteredText) {
         setEnteredInputText(enteredText);
@@ -29,21 +38,19 @@ function Search() {
             setIsLoading(true);
 
         //Search by the input text term:
-        // axios.get(`${search_url}?q=${enteredInputText}&sortBy=${sortBy}`, {
-        //     headers: {
-        //         'X-API-KEY': _api_key
-        //     }
-        // })
-        // .then(data => {
-        //     setIsLoading(false);
-        //     setData(data.data.articles);
-        // })
-        // .catch(function (error){
-            // setIsLoading(false);
-        //     console.log(error);
-        // });
+        axios.get(`${search_url}?q=${enteredInputText}&sortBy=${sortBy}`, {
+            headers: {
+                'X-API-KEY': _api_key
+            }
+        })
+        .then(data => {
+            setData(data.data.articles);
+        })
+        .catch(function (error){
+            console.log(error);
+        });
 
-        setIsLoading(false); //TEMPORARY
+        setIsLoading(false);
         setSearchModalIsVisible(true);
         } else {
             Alert.alert(
@@ -91,34 +98,32 @@ function Search() {
                 </View>
             </View>
             <Modal visible={searchModalIsVisible} animationType="slide">
-                {/* <View> */}
-                    <View style={styles.searchContainer}>
-                        <View style={styles.searchTextContainer}>
-                            <Text style={styles.searchText}>Search Results For: {enteredInputText}</Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <View style={styles.buttonOuterContainer}>
-                                <Pressable
-                                style={({ pressed }) =>
-                                pressed
-                                    ? [styles.buttonInnerContainer, styles.pressed]
-                                    : styles.buttonInnerContainer
-                                }
-                                onPress={() => {
-                                    setEnteredInputText('');
-                                    setSearchModalIsVisible(false);
-                                }}
-                                android_ripple={{ color: '#457b9d' }}
-                                >
-                                    <Text style={styles.buttonText}>Cancel</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                        <View>
-                            <NewsItem data={data}/>
+                <View style={styles.searchContainer}>
+                    <View style={styles.searchTextContainer}>
+                        <Text style={styles.searchText}>Search Results For: {enteredInputText}</Text>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonOuterContainer}>
+                            <Pressable
+                            style={({ pressed }) =>
+                            pressed
+                                ? [styles.buttonInnerContainer, styles.pressed]
+                                : styles.buttonInnerContainer
+                            }
+                            onPress={() => {
+                                setEnteredInputText('');
+                                setSearchModalIsVisible(false);
+                            }}
+                            android_ripple={{ color: '#457b9d' }}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </Pressable>
                         </View>
                     </View>
-                {/* </View> */}
+                    <View>
+                        <NewsItem data={data}/>
+                    </View>
+                </View>
             </Modal>
         </React.Fragment>
     );
@@ -126,12 +131,8 @@ function Search() {
 
 const styles = StyleSheet.create({
     searchContainer: {
-        margin: 1,
+        padding: 4,
         backgroundColor: '#a8dadc',
-        // flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center'
-
     },
     searchTextContainer: {
         margin: 5,
@@ -141,7 +142,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     searchText: {
-        fontSize: 22
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#2b2d42',
+        fontFamily: 'Roboto_300Light'
     },
     inputContainer: {
         flex: 1,
@@ -149,8 +153,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 24,
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#cccccc',
         backgroundColor: '#a8dadc',
         padding: 4
     },
@@ -165,10 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#edf6f9'
     },
     buttonContainer: {
-        // backgroundColor: '#457b9d',
-        paddingBottom: 2,
-        borderBottomWidth: 2,
-        borderBottomColor: '#cccccc',
+        padding: 2
     },
     buttonOuterContainer: {
         borderRadius: 28,
@@ -179,12 +178,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#457b9d',
         paddingVertical: 8,
         paddingHorizontal: 16,
-        elevation: 2,//note that this is for android, there’s no equivalent (elevation feature) in ios. Instead, you would have to use shadow properties for ios. Such as shadowColor etc.
-        shadowOffset: { width: 0, height: 2 } //how much the shadow should be offset from the original object, from the left and height. Requires object.
+        elevation: 2,
+        shadowOffset: { width: 0, height: 2 }
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
+        fontSize: 17
     },
     pressed: {
         opacity: 0.75,
