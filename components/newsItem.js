@@ -30,14 +30,16 @@ function NewsItem({ data }) {
             subtitle={ 
                 <View style={styles.listItemContainer}>
                     <Image 
-                        source={{ uri: item.urlToImage != null ? item.urlToImage : ''}}
+                        source={{ uri: item.urlToImage != null ? item.urlToImage : '../assets/readme-img/News-1--Start.png'}}
                         style={item.urlToImage != null ? {
                             width: 100,
-                            height: 100,
+                            height: 'auto',
+                            aspectRatio: 1,
                             borderWidth: 2,
                             borderColor: '#cccccc',
                             resizeMode: 'contain',
-                            marginRight: 9
+                            marginRight: 9,
+                            resizeMode: "cover"
                         } : {margin: 0}}
                     />
                     <View style={styles.textContainer}>
@@ -59,7 +61,7 @@ function NewsItem({ data }) {
                 data={data}
                 renderItem={renderNewsItem}
                 keyExtractor={item=>
-                data.indexOf(item)}
+                data.indexOf(item).toString()}
             />
             <NewsDetailModal modalArticleData={modalArticleData} setModalArticleData={setModalArticleData} modalIsVisible={modalIsVisible} setModalIsVisible={setModalIsVisible}   />
         </React.Fragment>

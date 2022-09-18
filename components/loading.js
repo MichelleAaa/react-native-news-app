@@ -18,17 +18,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        // paddingVertical: 3,
         borderBottomWidth: 2,
         borderBottomColor: '#cccccc'
     },
     loadingText: {
-        // borderWidth: 1,
-        // borderColor: '#cccccc',
         textAlign: 'center',
-        width: '100%',
-        // marginRight: 8,
-        // padding: 8
+        width: '100%'
     }
 });
 

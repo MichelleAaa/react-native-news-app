@@ -5,9 +5,6 @@ import Loading from "./loading";
 import NewsItem from "./newsItem";
 import Search from "./search";
 
-// temporary, while not requesting from API:
-import tempData from "../data-temporary";
-
 import axios from 'axios';
 import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
 import { articles_url, country_code, category } from './newsAPI_config/general_config';
@@ -21,7 +18,7 @@ function Home() {
         Roboto_300Light
     });
 
-    // SENDS REQUEST FOR API DATA - LIMIT 100 PER DAY SO TURNED OFF TEMPORARILY (Later, set data back to '' to start and remove tempData):
+    // Sends request for API data for the general news section:
     useEffect(() => {
         axios.get(`${articles_url}?country=${country_code}&category=${category}`, {
             headers: {
@@ -29,8 +26,8 @@ function Home() {
             }
         })
         .then(data => {
-            setIsLoading(false);
             setData(data.data.articles);
+            setIsLoading(false);
         })
         .catch(function (error){
             console.log(error);

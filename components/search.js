@@ -8,14 +8,10 @@ import Loading from "./loading";
 import { search_url, country_code, sortBy } from './newsAPI_config/search_config';
 import { _api_key } from './newsAPI_config/API_key/API_key';
 
-// temporary, while not requesting from API:
-import tempData from "../data-temporary";
-
 function Search() {
     const [enteredInputText, setEnteredInputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // NOTE - Set to tempData only while not using API:
     const [data, setData] = useState('');
 
     const [searchModalIsVisible, setSearchModalIsVisible] = useState(false);//Modal will be closed to start.
@@ -32,7 +28,7 @@ function Search() {
         setEnteredInputText(enteredText);
     }
 
-    // SENDS REQUEST FOR API DATA - LIMIT 100 PER DAY SO TURNED OFF TEMPORARILY:
+    // Sends request for API data:
     function addSearchHandler() {
         if(enteredInputText != ''){
             setIsLoading(true);

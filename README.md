@@ -96,4 +96,4 @@ I built this project after studying React Native in the Nucamp Full Stack Web an
 
 ## References/Inspiration
 
--Pradip Debnath - "#1 - Create App UI with Native Base | News App in React Native Tutorial" - https://www.youtube.com/watch?v=0tOxrpPbx_c&list=PLQWFhX-gwJbl5sIXMZvdvGYCcZbUevE88&index=2 (Inspiration for the project itself and the use of NewsAPI, however, my application includes search functionality and a simpler UI.)
+- Pradip Debnath - "#1 - Create App UI with Native Base | News App in React Native Tutorial" - https://www.youtube.com/watch?v=0tOxrpPbx_c&list=PLQWFhX-gwJbl5sIXMZvdvGYCcZbUevE88&index=2 (Inspiration for the project itself and the use of NewsAPI, however, my application includes search functionality and a simpler UI.)
