@@ -4,7 +4,6 @@ import { Text } from 'react-native-elements';
 import Loading from "./loading";
 import NewsItem from "./newsItem";
 import Search from "./search";
-
 import axios from 'axios';
 import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
 import { articles_url, country_code, category } from './newsAPI_config/general_config';
@@ -34,12 +33,8 @@ function Home() {
         })
     }, []);
     
-    if (isLoading) {
+    if (isLoading || !fontsLoaded) {
         return <Loading />;
-    }
-
-    if (!fontsLoaded) {
-        return null;
     }
 
     return (

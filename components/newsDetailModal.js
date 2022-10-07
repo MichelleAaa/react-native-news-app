@@ -3,6 +3,7 @@ import { View, StyleSheet, Modal, Pressable, ActivityIndicator } from 'react-nat
 import { Text } from 'react-native-elements';
 import { WebView } from 'react-native-webview';
 import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
+import Loading from "./loading";
 
 function NewsDetailModal({ modalArticleData, setModalArticleData, modalIsVisible, setModalIsVisible  }) {
     let [fontsLoaded] = useFonts({
@@ -10,7 +11,7 @@ function NewsDetailModal({ modalArticleData, setModalArticleData, modalIsVisible
     });
 
     if (!fontsLoaded) {
-        return null;
+        return <Loading />;
     }
 
     function ActivityIndicatorLoadingView() {
@@ -72,14 +73,14 @@ const styles = StyleSheet.create({
         elevation: 2,
         shadowOffset: { width: 0, height: 2 }
     },
+        pressed: {
+        opacity: 0.75,
+    },
     buttonText: {
         color: 'white',
         textAlign: 'center',
         fontSize: 17,
         fontFamily: 'Roboto_300Light'
-    },
-    pressed: {
-        opacity: 0.75,
     },
     modalWebViewContainer: {
         backgroundColor : 'white',

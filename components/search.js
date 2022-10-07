@@ -5,15 +5,13 @@ import axios from 'axios';
 import { useFonts, Roboto_300Light } from '@expo-google-fonts/roboto';
 import NewsItem from "./newsItem" ;
 import Loading from "./loading";
-import { search_url, country_code, sortBy } from './newsAPI_config/search_config';
+import { search_url, sort_by } from './newsAPI_config/search_config';
 import { _api_key } from './newsAPI_config/API_key/API_key';
 
 function Search() {
     const [enteredInputText, setEnteredInputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
     const [data, setData] = useState('');
-
     const [searchModalIsVisible, setSearchModalIsVisible] = useState(false);//Modal will be closed to start.
 
     let [fontsLoaded] = useFonts({
@@ -21,7 +19,7 @@ function Search() {
     });
 
     if (!fontsLoaded) {
-        return null;
+        return <Loading />;
     }
 
     function textInputHandler(enteredText) {
@@ -34,7 +32,7 @@ function Search() {
             setIsLoading(true);
 
         //Search by the input text term:
-        axios.get(`${search_url}?q=${enteredInputText}&sortBy=${sortBy}`, {
+        axios.get(`${search_url}?q=${enteredInputText}&sortBy=${sort_by}`, {
             headers: {
                 'X-API-KEY': _api_key
             }
@@ -51,7 +49,7 @@ function Search() {
         } else {
             Alert.alert(
                 "Error",
-                "Please enter a search term in the input box to continue.",
+                "Please enter a search term in the input field to continue.",
                 [
                     {
                     text: "Cancel",
@@ -126,23 +124,6 @@ function Search() {
 }
 
 const styles = StyleSheet.create({
-    searchContainer: {
-        padding: 4,
-        backgroundColor: '#a8dadc',
-    },
-    searchTextContainer: {
-        margin: 5,
-        padding: 20,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    searchText: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: '#2b2d42',
-        fontFamily: 'Roboto_300Light'
-    },
     inputContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -177,13 +158,30 @@ const styles = StyleSheet.create({
         elevation: 2,
         shadowOffset: { width: 0, height: 2 }
     },
+    pressed: {
+        opacity: 0.75,
+    },
     buttonText: {
         color: 'white',
         textAlign: 'center',
         fontSize: 17
     },
-    pressed: {
-        opacity: 0.75,
+    searchContainer: {
+        padding: 4,
+        backgroundColor: '#a8dadc',
+    },
+    searchTextContainer: {
+        margin: 5,
+        padding: 20,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    searchText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#2b2d42',
+        fontFamily: 'Roboto_300Light'
     }
 });
 
